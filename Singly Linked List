@@ -1,0 +1,318 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Security.Policy;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Data_structes
+{
+
+    class LinkedList
+    {
+        int length;
+
+        class Node
+        {
+            public int data;
+            public Node next;
+        }
+
+        Node head;
+        Node Tail;
+
+        LinkedList()
+        {
+            head = Tail = null;
+            length = 0;
+        }
+
+        public bool isEmpty()
+        {
+            return length == 0;
+        }
+
+        public int size()
+        {
+            return length;
+        }
+
+
+        public void addNode(int data, int pos)
+        {
+            if (pos < 0 || pos > length)
+            {
+                Console.WriteLine("Out of range");
+                return;
+            }
+
+            Node newNode = new Node();
+            newNode.data = data;
+            if (isEmpty())
+            {
+                InsertFirst(data);
+            }
+            else if (pos == length)
+            {
+                InsertLast(data);
+            }
+            else
+            {
+                Node current = head;
+                for (int i = 1; i < pos; i++)
+                {
+                    current = current.next;
+                }
+                newNode.next = current.next;
+                current.next = newNode;
+                length++;
+            }
+
+        }
+
+        public void InsertFirst(int val)
+        {
+            Node newNode = new Node();
+            newNode.data = val;
+            if (isEmpty())
+            {
+                head = Tail = newNode;
+                newNode.next = null;
+            }
+            else
+            {
+                newNode.next = head;
+                head = newNode;
+            }
+
+            length++;
+        }
+
+        public void InsertLast(int val)
+        {
+            Node newNode = new Node();
+            newNode.data = val;
+            if (isEmpty())
+            {
+                head = Tail = newNode;
+                newNode.next = null;
+            }
+            else
+            {
+                Tail.next = newNode;
+                newNode.next = null;
+                Tail = newNode;
+            }
+
+            length++;
+        }
+
+        public void DeleteFirst()
+        {
+            if (isEmpty())
+            {
+                Console.WriteLine("The list is empty");
+                return;
+            }
+            else if (length == 1)
+            {
+                head = Tail = null;
+                length--;
+            }
+            else
+            {
+                head = head.next;
+                length--;
+            }
+        }
+
+        public void DeleteLast()
+        {
+            if (isEmpty())
+            {
+                Console.WriteLine("The list is empty");
+                return;
+            }
+            else if (length == 1)
+            {
+                head = Tail = null;
+                length--;
+            }
+            else
+            {
+                Node current = head;
+                while (current.next != Tail)
+                {
+                    current = current.next;
+                }
+                current.next = null;
+                Tail = current;
+                length--;
+            }
+        }
+
+        public void DeleteNode(int pos)
+        {
+            if (isEmpty())
+            {
+                Console.WriteLine("The list is empty");
+                return;
+            }
+            else if (pos < 0 || pos >= length)
+            {
+                Console.WriteLine("Out of range");
+                return;
+            }
+            else if (pos == 0)
+            {
+                DeleteFirst();
+            }
+            else if (pos == length - 1)
+            {
+                DeleteLast();
+            }
+            else
+            {
+                Node current = head;
+                for (int i = 1; i < pos; i++)
+                {
+                    current = current.next;
+                }
+                current.next = current.next.next;
+                length--;
+            }
+        }
+
+        public void Reverse()
+        {
+            Node prev = null;
+            Node current = head;
+            Node next = null;
+            while (current != null)
+            {
+                next = current.next;
+                current.next = prev;
+                prev = current;
+                current = next;
+            }
+            head = prev;
+        }
+
+        public int Search(int val)
+        {
+            Node current = head;
+            int pos = 0;
+            while (current != null)
+            {
+                if (current.data == val)
+                {
+                    return pos;
+                }
+                current = current.next;
+                pos++;
+            }
+            return -1;
+        }
+
+        public void Update(int val, int pos)
+        {
+            if (pos < 0 || pos >= length)
+            {
+                Console.WriteLine("Out of range");
+                return;
+            }
+            Node current = head;
+            for (int i = 0; i < pos; i++)
+            {
+                current = current.next;
+            }
+            current.data = val;
+        }
+
+        public void Sort()
+        {
+            Node current = head;
+            Node index = null;
+            int temp;
+            if (isEmpty())
+            {
+                return;
+            }
+            else
+            {
+                while (current != null)
+                {
+                    index = current.next;
+                    while (index != null)
+                    {
+                        if (current.data > index.data)
+                        {
+                            temp = current.data;
+                            current.data = index.data;
+                            index.data = temp;
+                        }
+                        index = index.next;
+                    }
+                    current = current.next;
+                }
+            }
+        }
+
+        public void RemoveDuplicates()
+        {
+            Node current = head;
+            Node index = null;
+            Node temp = null;
+            if (isEmpty())
+            {
+                return;
+            }
+            else
+            {
+                while (current != null)
+                {
+                    index = current;
+                    while (index.next != null)
+                    {
+                        if (current.data == index.next.data)
+                        {
+                            temp = index.next;
+                            index.next = temp.next;
+                        }
+                        else
+                        {
+                            index = index.next;
+                        }
+                    }
+                    current = current.next;
+                }
+            }
+        }
+
+
+        public void Display()
+        {
+            Node current = head;
+            while (current != null)
+            {
+                Console.Write(current.data + " ");
+                current = current.next;
+            }
+            Console.WriteLine();
+        }
+
+
+
+    }
+
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+
+        }
+    }
+}
