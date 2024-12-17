@@ -1,0 +1,221 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Security.Policy;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Data_Structres
+{
+   
+
+    internal class ArrayList
+    {
+        int[] _arr;
+        int _MaxSize;
+        int _Length;
+
+        public ArrayList(int MaxSize)
+        {
+            if (MaxSize < 0)
+            {
+                MaxSize = 10;
+            }
+            else
+            {
+                _MaxSize = MaxSize;
+                _arr = new int[MaxSize];
+                _Length = 0;
+            }
+        }
+
+
+        public bool IsEmpty()
+        {
+            return _Length == 0;
+        }
+
+        public bool IsFull()
+        {
+            return _Length == _MaxSize;
+        }
+
+        int GetSize()
+        {
+            return _Length;
+        }
+
+        public void Print()
+        {
+            foreach (int i in _arr)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine();
+        }
+
+        public void InsertAt(int val,int pos)
+        {
+            if (IsFull())
+            {
+                Console.WriteLine("Array is full");
+            }
+            else if (pos < 0 || pos > _Length)
+            {
+                Console.WriteLine("Out of range");
+            }
+            else
+            {
+                for (int i = _Length; i > pos; i--)
+                {
+                    _arr[i] = _arr[i - 1];
+                }
+                _arr[pos] = val;
+                _Length++;
+            }
+            
+        }
+
+        public void RemoveAt(int pos)
+        {
+            if (IsEmpty())
+            {
+                Console.WriteLine("Array is empty");
+            }
+            else if (pos < 0 || pos >= _Length)
+            {
+                Console.WriteLine("Out of range");
+            }
+            else
+            {
+                for (int i = pos; i < _Length - 1; i++)
+                {
+                    _arr[i] = _arr[i + 1];
+                }
+                _Length--;
+            }
+        }
+
+        public  void InsertAtEnd(int val)
+        {
+            InsertAt(val, _Length);
+        }
+
+        public void InsertAtBegin(int val)
+        {
+            InsertAt(val, 0);
+        }
+
+        public void RemoveAtEnd()
+        {
+            RemoveAt(_Length - 1);
+        }
+
+        public void RemoveAtBegin()
+        {
+            RemoveAt(0);
+        }
+
+        public int Search(int val)
+        {
+            for (int i = 0; i < _Length; i++)
+            {
+                if (_arr[i] == val)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+
+        public void EditAt(int val, int pos)
+        {
+            if (pos < 0 || pos >= _Length)
+            {
+                Console.WriteLine("Out of range");
+            }
+            else
+            {
+                _arr[pos] = val;
+            }
+        }
+
+        public void InsertNoDuplicate(int val)
+        {
+            if (Search(val) == -1)
+            {
+                InsertAtEnd(val);
+            }
+            else
+            {
+                Console.WriteLine("Duplicate value");
+            }
+        }
+
+        public int GetElement(int pos)
+        {
+            if (pos < 0 || pos >= _Length)
+            {
+                Console.WriteLine("Out of range");
+                return -1;
+            }
+            else
+            {
+                return _arr[pos];
+            }
+        }
+
+        public void Sort()
+        {
+            for (int i = 0; i < _Length - 1; i++)
+            {
+                for (int j = i + 1; j < _Length; j++)
+                {
+                    if (_arr[i] > _arr[j])
+                    {
+                        int temp = _arr[i];
+                        _arr[i] = _arr[j];
+                        _arr[j] = temp;
+                    }
+                }
+            }
+        }
+
+        public void Reverse()
+        {
+            for (int i = 0; i < _Length / 2; i++)
+            {
+                int temp = _arr[i];
+                _arr[i] = _arr[_Length - 1 - i];
+                _arr[_Length - 1 - i] = temp;
+            }
+        }
+
+   
+        public void Clear()
+        {
+            _Length = 0;
+        }
+
+        
+        
+           
+    }
+        
+    
+    
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+            ArrayList arr = new ArrayList(10);
+            arr.InsertAtEnd(10);
+            arr.InsertAtEnd(20);
+            arr.InsertAt(2, 10);
+        }
+    }
+}
