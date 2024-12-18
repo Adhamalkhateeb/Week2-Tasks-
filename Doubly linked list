@@ -1,0 +1,257 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Security.Policy;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Data_structs
+{
+
+    class DoublyLinkedList
+    {
+        class Node
+        {
+            public int value;
+            public Node Next;
+            public Node prev;
+        }
+
+        Node _head;
+        Node _Tail;
+        int length;
+        DoublyLinkedList()
+        {
+            _head = _Tail =  null;
+            length = 0;
+        }
+
+        public bool IsEmpty()
+        {
+            return length == 0;
+        }
+
+        public int GetSize()
+        {
+            return length;
+        }
+
+        public void InsertFirst(int val)
+        {
+            Node newNode = new Node();
+            newNode.value = val;
+            newNode.prev = null;
+            if(IsEmpty())
+            {
+                _head = _Tail = newNode;
+                newNode.Next = null;     
+            }
+            else
+            {
+                newNode.Next = _head;
+                _head.prev = newNode;
+                _head = newNode;        
+            }
+            length++;
+        }
+
+        public void InsertLast(int val)
+        {
+            Node newNode = new Node();
+            newNode.value = val;
+            newNode.Next = null;
+            if(IsEmpty())
+            {
+                newNode.prev = null;
+                _head = _Tail = newNode;
+            }
+            else
+            {
+                newNode.prev = _Tail;
+                _Tail.Next = newNode;
+                _Tail = newNode;
+            }
+            length++;
+        }
+
+        public void InsertAt(int val,int pos)
+        {
+            if (pos < 0 || pos > length)
+                Console.WriteLine("Out of Range");
+            else if (pos == 0)
+                InsertFirst(val);
+            else if (pos == length)
+                InsertLast(val);
+            else
+            {
+                Node newNode = new Node();
+                newNode.value = val;
+                Node Current = _head;
+                for(int i = 1; i < pos;i++)
+                {
+                    Current = Current.Next;
+                }
+                Current.Next.prev = newNode;
+                newNode.Next = Current.Next;
+                Current.Next = newNode;
+                newNode.prev = Current;
+
+            }
+            length++;
+            
+        }
+
+        public void DeleteFirst()
+        {
+            if(IsEmpty())
+            {
+                Console.WriteLine("The Linked list is Empty");
+                return;
+            }
+
+            if(length == 1)
+            {
+                _head = _Tail = null;
+                
+            }
+            else
+            {
+                
+                _head = _head.Next;
+                _head.prev = null;
+            }
+            length--;
+        }
+
+        public void DeleteLast()
+        {
+            if (IsEmpty())
+            {
+                Console.WriteLine("The Linked list is Empty");
+                return;
+            }
+            if (length == 1)
+            {
+                _head = _Tail = null;
+
+            }
+            else
+            {
+                _Tail = _Tail.prev;
+                _Tail.Next = null;
+
+            }
+            length--;
+
+        }
+        
+        public void DeleteAt(int pos)
+        {
+            if (IsEmpty())
+            {
+                Console.WriteLine("The Linked list is Empty");
+                return;
+            }
+            if(pos < 0 || pos >= length)
+            {
+                Console.WriteLine("Out of Range");
+                return;
+            }
+
+            if (pos == 0)
+                DeleteFirst();
+            else if (pos == length -1)
+                DeleteLast();
+            else
+            {
+                Node Curr = _head;
+                for(int i = 1; i< pos;i++)
+                {
+                    Curr = Curr.Next;
+                }
+                Curr.Next.Next.prev = Curr;
+                Curr.Next = Curr.Next.Next;
+
+            }
+            length--;
+        }
+
+        public void DeleteItem(int val)
+        {
+            if (IsEmpty())
+            {
+                Console.WriteLine("The Linked list is Empty");
+                return;
+            }
+
+            if (_head.value == val)
+                DeleteFirst();
+            else
+            {
+                Node Curr = _head;
+                while(Curr != null)
+                {
+                    if(Curr.value == val)
+                    {
+                        break;
+                    }
+                    Curr = Curr.Next;
+                }
+                if (Curr == null)
+                {
+                    Console.WriteLine("Element not found");
+                    return;
+                }
+                else if(Curr.Next == null)
+                {
+                    DeleteLast();
+                }
+                else
+                {
+                    Curr.Next.prev = Curr.prev;
+                    Curr.prev.Next = Curr.Next;
+          
+                }
+                length--;               
+
+            }
+        }
+
+        public void ReverseDisplay()
+        {
+            Node Curr = _Tail;
+            while (Curr != null)
+            {
+                Console.WriteLine(Curr.value + " ");
+                Curr =Curr.prev;
+            }
+            Console.WriteLine();
+        }
+
+        public void Display()
+        {
+            Node Curr = _head;
+            while(Curr != null)
+            {
+                Console.WriteLine(Curr.value + " ");
+                Curr =Curr.Next;
+            }
+            Console.WriteLine();
+        }
+    }
+
+
+
+
+
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+
+        }
+    }
+}
